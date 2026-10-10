@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdece0"/>
+      <stop offset="0.55" stop-color="#f7d9c6"/>
+      <stop offset="1" stop-color="#e7f0ea"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.72" cy="0.22" r="0.6">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+  <path d="M0 352c70-40 122-16 176-30s96-56 158-44 122 46 178 24v210H0z" fill="#d9663f" opacity="0.16"/>
+  <path d="M0 400c86-30 132 6 196-12s110-52 168-38 96 34 148 18v144H0z" fill="#5f9380" opacity="0.20"/>
+  <text x="256" y="322" font-size="230" text-anchor="middle"
+        font-family="'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif">👣</text>
+</svg>

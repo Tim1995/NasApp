@@ -1,0 +1,20 @@
+{
+  "name": "小脚丫旅行记 · 宝宝的旅行纪念册",
+  "short_name": "小脚丫",
+  "description": "为宝宝记录每一次远行，自动生成一辈子的旅行轨迹。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fdf8f3",
+  "theme_color": "#d9663f",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
