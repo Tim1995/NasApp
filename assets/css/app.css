@@ -1878,6 +1878,178 @@ select.input {
   100% { transform: scale(1.7); opacity: 0; }
 }
 
+/* ============================================================
+ * 本机模式提示条（双击 index.html 打开时出现，可关闭）
+ * ============================================================ */
+
+.local-tip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--gold-soft);
+  border: 1px solid #ecdfc4;
+}
+.local-tip__icon {
+  flex: none;
+  font-size: 17px;
+  line-height: 1;
+}
+.local-tip__title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #6d5320;
+}
+.local-tip__text {
+  font-size: 12.5px;
+  color: #8a6f38;
+  margin-top: 2px;
+  line-height: 1.7;
+}
+.local-tip__close {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #a58f60;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.16s var(--ease);
+}
+.local-tip__close:hover {
+  background: rgba(109, 83, 32, 0.09);
+  color: #6d5320;
+}
+
+/* 说明弹窗里的两种模式对比 */
+.mode-help__lead {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.85;
+  margin-bottom: 16px;
+}
+.mode-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: var(--bg-deep);
+}
+.mode-card.is-current {
+  border-color: var(--primary);
+  background: var(--primary-softer);
+}
+.mode-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.mode-card__icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.mode-card__title {
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.mode-card__badge {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 99px;
+  background: var(--primary);
+  color: #fff;
+}
+.mode-card__list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.9;
+}
+.mode-help__how {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--sky-soft);
+}
+.mode-help__how-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sky);
+  margin-bottom: 5px;
+}
+.mode-help__how-text {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.85;
+}
+
+@media (max-width: 620px) {
+  .local-tip {
+    position: relative;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding-right: 42px;
+  }
+  .local-tip__close {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+  }
+  .local-tip > .btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* 回忆模式（深色）下的配色 */
+.immersive .local-tip {
+  background: rgba(217, 163, 67, 0.13);
+  border-color: rgba(217, 163, 67, 0.24);
+}
+.immersive .local-tip__title {
+  color: #e8cd93;
+}
+.immersive .local-tip__text {
+  color: #c4ab7e;
+}
+.immersive .local-tip__close {
+  color: #b39b6e;
+}
+.immersive .local-tip__close:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #e8cd93;
+}
+.immersive .mode-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.immersive .mode-card.is-current {
+  background: rgba(217, 102, 63, 0.12);
+  border-color: rgba(217, 102, 63, 0.4);
+}
+.immersive .mode-card__list {
+  color: rgba(243, 233, 223, 0.78);
+}
+.immersive .mode-help__lead {
+  color: rgba(243, 233, 223, 0.78);
+}
+.immersive .mode-help__how {
+  background: rgba(79, 134, 184, 0.16);
+}
+.immersive .mode-help__how-title {
+  color: #a8cbe8;
+}
+.immersive .mode-help__how-text {
+  color: rgba(243, 233, 223, 0.78);
+}
+
 /* 存储模式卡片 */
 .storage-card {
   display: flex;

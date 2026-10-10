@@ -19,6 +19,100 @@
     return '晚上好';
   }
 
+  /* ============================================================
+   * 本机模式提示
+   * 双击 index.html 打开时数据存在浏览器里，很多人不知道，
+   * 换台设备发现"数据没了"就来问。这里温和地说一句，可以关掉。
+   * ============================================================ */
+
+  var TIP_KEY = 'hideLocalTip';
+
+  function localModeTip() {
+    var box = U.el('div', { class: 'local-tip' });
+    box.appendChild(U.el('span', { class: 'local-tip__icon', text: '💾' }));
+    box.appendChild(
+      U.el('div', { class: 'grow' }, [
+        U.el('div', { class: 'local-tip__title', text: '记录保存在这台设备的浏览器里' }),
+        U.el('div', {
+          class: 'local-tip__text',
+          text: '换浏览器、换电脑、清理缓存都会丢。想让手机和平板也看到同一份？'
+        })
+      ])
+    );
+    box.appendChild(
+      U.el('button', {
+        class: 'btn btn--soft btn--sm',
+        text: '怎么做',
+        onclick: function () {
+          showLocalModeHelp();
+        }
+      })
+    );
+    box.appendChild(
+      U.el('button', {
+        class: 'local-tip__close',
+        title: '不再提示',
+        text: '×',
+        onclick: function () {
+          BF.DB.kvSet(TIP_KEY, 1);
+          if (box.parentNode) box.parentNode.removeChild(box);
+        }
+      })
+    );
+    return box;
+  }
+
+  function modeCard(icon, title, items, current) {
+    return U.el('div', { class: 'mode-card' + (current ? ' is-current' : '') }, [
+      U.el('div', { class: 'mode-card__head' }, [
+        U.el('span', { class: 'mode-card__icon', text: icon }),
+        U.el('span', { class: 'mode-card__title', text: title }),
+        current ? U.el('span', { class: 'mode-card__badge', text: '当前' }) : null
+      ]),
+      U.el(
+        'ul',
+        { class: 'mode-card__list' },
+        items.map(function (t) {
+          return U.el('li', { text: t });
+        })
+      )
+    ]);
+  }
+
+  function showLocalModeHelp() {
+    var content = U.el('div', { class: 'mode-help' }, [
+      U.el('p', {
+        class: 'mode-help__lead',
+        text: '两种用法功能完全一样 —— 地图、真实道路里程、重温对比、备份都能用。区别只有一个：数据存在哪。'
+      }),
+      modeCard(
+        '💻',
+        '浏览器模式',
+        ['不用装任何东西', '数据存在这台设备的浏览器里', '换浏览器、换电脑、清理缓存会丢', '手机和平板看不到这份记录'],
+        true
+      ),
+      modeCard('🏠', '本地服务模式', [
+        '数据存在项目文件夹的 data/ 里，就是一份普通文件，好备份、好拷贝',
+        '手机、平板连同一个 WiFi，打开同一个网址就能看同一份记录',
+        '需要 Node.js —— 重新运行 start.bat，会问你要不要自动下载一份（约 34 MB，不装进系统）'
+      ]),
+      U.el('div', { class: 'mode-help__how' }, [
+        U.el('div', { class: 'mode-help__how-title', text: '怎么切换？' }),
+        U.el('div', {
+          class: 'mode-help__how-text',
+          text: '关掉这个页面 → 重新双击 start.bat → 提问那里选 Y。装好之后再打开，程序会主动问你「要不要把浏览器里已有的数据搬过去」，点一下就行，不会丢。'
+        })
+      ])
+    ]);
+
+    U.modal({
+      title: '数据存在哪里？',
+      size: 'md',
+      content: content,
+      actions: [{ label: '知道了', value: true, primary: true }]
+    });
+  }
+
   BF.Views.home = {
     title: '首页',
     subtitle: function () {
@@ -91,6 +185,16 @@
       }
 
       host.appendChild(U.el('section', { class: 'hero' }, U.el('div', { class: 'hero__inner' }, heroBits)));
+
+      /* ---------- 本机模式提示（只在没有服务端时出现，可关闭） ---------- */
+      if (BF.DB.mode !== 'server') {
+        var tipHost = U.el('div', { class: 'section' });
+        host.appendChild(tipHost);
+        BF.DB.kvGet(TIP_KEY, 0).then(function (hidden) {
+          if (hidden || !tipHost.isConnected) return;
+          tipHost.appendChild(localModeTip());
+        });
+      }
 
       /* ---------- 统计 ---------- */
       var statsGrid = U.el('div', { class: 'grid grid--stats' });
