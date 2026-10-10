@@ -19,7 +19,20 @@ open_url() {
   fi
 }
 
-if command -v node >/dev/null 2>&1; then
+# 找 Node：优先用自带的 runtime/node，其次系统 PATH
+NODE_BIN=""
+if [ -x "./runtime/node" ]; then
+  NODE_BIN="$PWD/runtime/node"
+elif command -v node >/dev/null 2>&1; then
+  NODE_BIN="$(command -v node)"
+fi
+
+# 这个文件夹里有没有服务端模式存下的数据？
+HAS_DATA=""
+[ -f "./data/db.json" ] && HAS_DATA="1"
+
+if [ -n "$NODE_BIN" ]; then
+  echo "  已找到 Node：$NODE_BIN"
   echo "  正在启动本地服务…"
   echo "  数据会存在本目录的 data 文件夹里。"
   echo "  手机连同一个 WiFi，也能打开下面提示的地址。"
@@ -28,16 +41,31 @@ if command -v node >/dev/null 2>&1; then
     sleep 1.5
     open_url "http://localhost:5178"
   ) &
-  node server.js 5178
+  "$NODE_BIN" server.js 5178
   echo
   echo "  服务已停止。"
+elif [ -n "$HAS_DATA" ]; then
+  echo "  ⚠️  注意 —— 这个文件夹里有服务端模式存下的数据："
+  echo "        $(pwd)/data/"
+  echo
+  echo "  但是没找到 Node.js，起不了服务。直接打开网页的话，"
+  echo "  读到的是浏览器本地数据，看不到 data 文件夹里的行程和照片。"
+  echo
+  echo "  想看到数据，二选一："
+  echo "    A. 安装 Node.js（推荐）：https://nodejs.org 选 LTS 版本"
+  echo "    B. 已经装了但不在 PATH 里？把 node 可执行文件放到："
+  echo "         $(pwd)/runtime/node"
+  echo "       然后重新运行本脚本。"
+  echo
+  read -r -p "  按回车键关闭…" _
 else
-  echo "  没有检测到 Node.js，直接用浏览器打开（功能一样，数据存在浏览器里）。"
+  echo "  没有检测到 Node.js，直接用浏览器打开。"
+  echo "  功能一样全，只是数据存在浏览器里，而不是本项目的 data 文件夹。"
   echo
   open_url "file://$(pwd)/index.html"
   echo
-  echo "  数据保存在你自己的浏览器里，换浏览器或清理缓存会丢失，"
-  echo "  记得偶尔用「设置 → 导出备份」存一份文件留底。"
+  echo "  想换成「本地服务」模式（数据存 data 文件夹、手机也能一起看），"
+  echo "  装上 Node.js 再运行本脚本即可：https://nodejs.org"
   echo
   read -r -p "  按回车键关闭…" _
 fi

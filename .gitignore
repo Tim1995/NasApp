@@ -16,6 +16,9 @@ data/
 
 # 依赖与系统文件
 node_modules/
+
+# 自带的便携版 Node（体积很大，绝不要提交）
+runtime/
 .DS_Store
 Thumbs.db
 desktop.ini
